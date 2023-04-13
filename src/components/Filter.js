@@ -1,8 +1,19 @@
 import React from 'react'
 
-function Filter() {
+function Filter({ onOptionSelect }) {
+  
+  function handleSelect(e) {
+    onOptionSelect(e.target.value)
+  }  
+
   return (
-    <div>Filter</div>
+    <div>
+        <select onChange={handleSelect} >
+            <option value="All">All</option>
+            <option value="Greased">Greased</option>
+            <option value="Not Greased">Not Greased</option>
+        </select>
+    </div>
   )
 }
 

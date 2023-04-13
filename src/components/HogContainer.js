@@ -1,10 +1,27 @@
-import React from 'react'
+import React, { useState } from 'react'
 import HogTile from './HogTile';
+import Filter from './Filter';
 
 
 function HogContainer({ hogsData }) {
   
-  const renderHogTiles = hogsData.map((hog) => {
+  const [selectedCategory, setSelectedCategory] = useState("All")
+
+  function onOptionSelect(option) {
+    setSelectedCategory(option);
+  }
+
+  const greasedHogs = hogsData.filter((hog) => {
+    if (selectedCategory === "All") {
+        return true;
+    } else if (selectedCategory === "Greased") {
+        return hog.greased;
+    } else {
+        return !hog.greased;
+    }
+  })
+    
+  const renderHogTiles = greasedHogs.map((hog) => {
     return (
         <HogTile
             key={hog.name} 
@@ -19,8 +36,9 @@ function HogContainer({ hogsData }) {
   });
 
   return (
-    <div className='porkers'>
-        {renderHogTiles}
+    <div>
+        <Filter onOptionSelect={onOptionSelect} />
+        <div className='porkers'>{renderHogTiles}</div>
     </div>
   )
 }
